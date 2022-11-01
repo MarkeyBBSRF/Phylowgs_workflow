@@ -58,7 +58,19 @@ Status: Downloaded newer image for merckey/hotpot:phylowgs
 docker.io/merckey/hotpot:phylowgs
 ```
 
+Test `phylowgs`. You should see the following output
+
+```
+docker run -ti merckey/hotpot:phylowgs python /phylowgs/multievolve.py
+usage: multievolve.py [-h] [-n NUM_CHAINS]
+                      [-r RANDOM_SEEDS [RANDOM_SEEDS ...]]
+                      [-I CHAIN_INCLUSION_FACTOR] [-O OUTPUT_DIR] --ssms
+                      SSM_FILE --cnvs CNV_FILE
+multievolve.py: error: argument --ssms is required
+```
+
 Similarly,
+
 ```
 docker pull merckey/hotpot:phylowgs_stats-v2
 ```
@@ -75,6 +87,52 @@ TCGA-YB-A89D/
 
 ## Generate Phylowgs tree
 
+The following command will generate 4 individual trees for the same sample using `multievolve.py`.
+[See phylowgs github](https://github.com/morrislab/phylowgs#running-phylowgs-with-multiple-mcmc-chains-recommended)
+
+
+```
+docker run -v demo:/demo merckey/hotpot:phylowgs python /phylowgs/multievolve.py -n 4 -I inf --ssms TCGA-RR-A6KC/smm_data.txt --cnvs TCGA-RR-A6KC/cnv_data.txt -B 1000 -s 2500 -i 5000 -O /demo/results/TCGA-RR-A6KC/
+
 ```
 
+Explanation:
+
+  1. `docker run -v demo:/demo` merckey/hotpot:phylowgs will map your local folder `demo` to the docker container and so that everythin in the `demo` folder can be accessed within docker under a different path `/demo`.
+  2. The rest of the command `python /phylowgs/multievolve.py -n 4 -I inf --ssms /demo/phylowgs_input/TCGA-YB-A89D/smm_data.txt --cnvs /demo/phylowgs_input/TCGA-YB-A89D/cnv_data.txt -B 1000 -s 2500 -i 5000 -O /demo/results/TCGA-YB-A89D/` will run the actually phylowgs tree pipeline and generate the output under the `/demo/results` in the concainer folder. You can access this folder locally in `demo/results`.
+
+
+The detailed explanation for this function:
+
+```
+    usage: multievolve.py [-h] [-n NUM_CHAINS]
+                          [-r RANDOM_SEEDS [RANDOM_SEEDS ...]]
+                          [-I CHAIN_INCLUSION_FACTOR] [-O OUTPUT_DIR] --ssms
+                          SSM_FILE --cnvs CNV_FILE
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -n NUM_CHAINS, --num-chains NUM_CHAINS
+                            Number of chains to run concurrently (default: 4)
+      -r RANDOM_SEEDS [RANDOM_SEEDS ...], --random-seeds RANDOM_SEEDS [RANDOM_SEEDS ...]
+                            Space-separated random seeds with which to initialize
+                            each chain. Specify one for each chain. (default:
+                            None)
+      -I CHAIN_INCLUSION_FACTOR, --chain-inclusion-factor CHAIN_INCLUSION_FACTOR
+                            Factor for determining which chains will be included
+                            in the output "merged" folder. Default is 1.5, meaning
+                            that the sum of the likelihoods of the trees found in
+                            each chain must be greater than 1.5x the maximum of
+                            that value across chains. Setting this value = inf
+                            includes all chains and setting it = 1 will include
+                            only the best chain. (default: 1.5)
+      -O OUTPUT_DIR, --output-dir OUTPUT_DIR
+                            Directory where results from each chain will be saved.
+                            We will create it if it does not exist. (default:
+                            chains)
+      --ssms SSM_FILE       File listing SSMs (simple somatic mutations, i.e.,
+                            single nucleotide variants. For proper format, see
+                            README.md. (default: None)
+      --cnvs CNV_FILE       File listing CNVs (copy number variations). For proper
+                            format, see README.md. (default: None)
 ```
