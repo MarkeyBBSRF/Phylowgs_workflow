@@ -92,7 +92,7 @@ The following command will generate 4 individual trees for the same sample using
 
 
 ```
-docker run -v demo:/demo merckey/hotpot:phylowgs python /phylowgs/multievolve.py -n 4 -I inf --ssms TCGA-RR-A6KC/smm_data.txt --cnvs TCGA-RR-A6KC/cnv_data.txt -B 1000 -s 2500 -i 5000 -O /demo/results/TCGA-RR-A6KC/
+docker run -v demo:/demo merckey/hotpot:phylowgs python /phylowgs/multievolve.py -n 4 -I inf --ssms /demo/phylowgs_input/TCGA-YB-A89D/smm_data.txt --cnvs /demo/phylowgs_input/TCGA-YB-A89D/cnv_data.txt -B 1000 -s 2500 -i 5000 -O /demo/results/TCGA-YB-A89D/
 
 ```
 
