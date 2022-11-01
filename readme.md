@@ -1,3 +1,5 @@
+This repository contains the test data and the command line to run the phylowgs workflow. You can download the entire folder to your local computer to test with the demo data.
+
 ## Test docker
 Open `Windows Powershell`, the `docker run hello-world` should be successfully executed.
 
@@ -87,18 +89,18 @@ TCGA-YB-A89D/
 
 ## Generate Phylowgs tree
 
-The following command will generate 4 individual trees for the same sample using `multievolve.py`.
+The following command will generate 4 individual trees for the sample `TCGA-YB-A89D` using `multievolve.py` function.
 [See phylowgs github](https://github.com/morrislab/phylowgs#running-phylowgs-with-multiple-mcmc-chains-recommended)
 
 
 ```
-docker run -v demo:/demo merckey/hotpot:phylowgs python /phylowgs/multievolve.py -n 4 -I inf --ssms /demo/phylowgs_input/TCGA-YB-A89D/smm_data.txt --cnvs /demo/phylowgs_input/TCGA-YB-A89D/cnv_data.txt -B 1000 -s 2500 -i 5000 -O /demo/results/TCGA-YB-A89D/
+docker run -v C:\Desktop\demo:/demo merckey/hotpot:phylowgs python /phylowgs/multievolve.py -n 4 -I inf --ssms /demo/phylowgs_input/TCGA-YB-A89D/smm_data.txt --cnvs /demo/phylowgs_input/TCGA-YB-A89D/cnv_data.txt -B 1000 -s 2500 -i 5000 -O /demo/results/TCGA-YB-A89D/
 
 ```
 
 Explanation:
 
-  1. `docker run -v demo:/demo` merckey/hotpot:phylowgs will map your local folder `demo` to the docker container and so that everythin in the `demo` folder can be accessed within docker under a different path `/demo`.
+  1. `docker run -v demo:/demo` merckey/hotpot:phylowgs will map your local folder `C:\Desktop\demo` to the docker container and so that everythin in the `demo` folder can be accessed within docker under a different path `/demo`. If `demo` folder is under a different path, replace `C:\Desktop\demo` to the correct path on your computer`.
   2. The rest of the command `python /phylowgs/multievolve.py -n 4 -I inf --ssms /demo/phylowgs_input/TCGA-YB-A89D/smm_data.txt --cnvs /demo/phylowgs_input/TCGA-YB-A89D/cnv_data.txt -B 1000 -s 2500 -i 5000 -O /demo/results/TCGA-YB-A89D/` will run the actually phylowgs tree pipeline and generate the output under the `/demo/results` in the concainer folder. You can access this folder locally in `demo/results`.
 
 
