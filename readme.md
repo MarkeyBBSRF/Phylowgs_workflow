@@ -1,5 +1,8 @@
 This repository contains the test data and the command line to run the phylowgs workflow. You can download the entire folder to your local computer to test with the demo data.
 
+## Install docker on Windows
+Follow the tutorial `https://www.youtube.com/watch?v=F3wEUL2i5KY&ab_channel=softbikas`, starts at 2:55
+
 ## Test docker
 Open `Windows Powershell`, the `docker run hello-world` should be successfully executed.
 
@@ -32,7 +35,26 @@ $ docker images hello-world
 REPOSITORY    TAG       IMAGE ID       SIZE
 hello-world   latest    feb5d9fea6a5   13.26kB
 ```
-## Setup docker environtment
+## Setup docker R environtment
+Open your `Windows Powershell` and type in the following commands
+
+Pull docker image
+```
+docker pull merckey/hotpot:rstudio-archR-gsea
+```
+
+Start the local R studio server. 
+
+The `-v` parameter in the code below mount your local computer to the R server so that data can be accessed in R. The parameter contain 2 parts with a colon separating each other `local_dir:server_dir`.
+   * `local_dir` is your data folder you'd like to access. For example, if you want to access all the files in your dropbox, you can set it as `C:/Dropbox`.
+   * `server_dir` is the path accessbile inside R server. If you set it to `/mnt`. Everything in your dropbox can be accessed through `/mnt` in R server.
+   
+```
+docker run --rm -p 8787:8787 --name rstudio_412 -e PASSWORD=123 -v "C:/your_directory_to_access_in_R_server:/mnt" merckey/hotpot:rstudio-archR-gsea
+```
+
+
+## Setup docker phylowgs environtment
 
 Two docker images need to be pulled from the repositiory.
 To get the images, run the following command line by line in `Windows Powershell`.
