@@ -160,3 +160,11 @@ The detailed explanation for this function:
       --cnvs CNV_FILE       File listing CNVs (copy number variations). For proper
                             format, see README.md. (default: None)
 ```
+## Summarize tree
+
+```
+mkdir summarize
+python /phylowgs/tree_reader_multi_latest.py \
+-t results/trees.zip -s TCGA-02-2470/ssm_data.txt -O summarize/TCGA-02-2470  -k 10
+
+```
